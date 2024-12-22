@@ -1,0 +1,98 @@
+/* Corps de la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* En-tête */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2.5em;
+    color: #4a90e2;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Section titres */
+h2 {
+    margin-top: 30px;
+    color: #4a90e2;
+    font-size: 1.8em;
+    border-bottom: 2px solid #4a90e2;
+    padding-bottom: 5px;
+}
+
+/* Zones de texte */
+textarea, input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+/* Boutons */
+button {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #357abd;
+}
+
+/* Résultats */
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Flexbox pour les bonus */
+.bonus-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.bonus-item {
+    flex: 1 1 calc(50% - 20px);
+    min-width: 200px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .bonus-item {
+        flex: 1 1 100%;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+}

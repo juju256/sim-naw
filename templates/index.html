@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur de Combat</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Simulateur de Combat</h1>
+    <div class="container">
+        <!-- Zone de configuration des joueurs -->
+        <h2>Configurer Joueurs</h2>
+        <textarea id="joueur1" placeholder="Détails du Joueur 1"></textarea>
+        <textarea id="joueur2" placeholder="Détails du Joueur 2"></textarea>
+        <button onclick="configurerJoueurs()">Configurer Joueurs</button>
+
+        <!-- Zone de configuration des bonus -->
+        <h2>Configurer Bonus</h2>
+        <div class="bonus-container">
+            <div class="bonus-item">
+                <h3>Joueur 1</h3>
+                <label>Mandibule:</label><input id="joueur1_mandibule" type="number">
+                <label>Carapace:</label><input id="joueur1_carapace" type="number">
+                <label>Dôme:</label><input id="joueur1_dome" type="number">
+                <label>Loge:</label><input id="joueur1_loge" type="number">
+            </div>
+            <div class="bonus-item">
+                <h3>Joueur 2</h3>
+                <label>Mandibule:</label><input id="joueur2_mandibule" type="number">
+                <label>Carapace:</label><input id="joueur2_carapace" type="number">
+                <label>Dôme:</label><input id="joueur2_dome" type="number">
+                <label>Loge:</label><input id="joueur2_loge" type="number">
+            </div>
+        </div>
+        <button onclick="configurerBonus()">Configurer Bonus</button>
+
+        <!-- Zone de simulation -->
+        <h2>Lancer Combat</h2>
+        <label>Environnement:</label>
+        <select id="environment">
+            <option value="terrain">Terrain</option>
+            <option value="dome">Dôme</option>
+            <option value="loge">Loge</option>
+        </select>
+        <button onclick="lancerCombat()">Lancer Combat</button>
+
+        <!-- Zone de résultats -->
+        <h2>Résultats</h2>
+        <div id="result">Les résultats s'afficheront ici.</div>
+    </div>
+
+    <script>
+        async function configurerJoueurs() {
+            const joueur1 = document.getElementById("joueur1").value;
+            const joueur2 = document.getElementById("joueur2").value;
+
+            const response = await fetch("/configurer_joueurs", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `joueur1=${encodeURIComponent(joueur1)}&joueur2=${encodeURIComponent(joueur2)}`
+            });
+            const data = await response.json();
+            alert(data.message);
+        }
+
+        async function configurerBonus() {
+            const params = new URLSearchParams();
+            ["joueur1_mandibule", "joueur1_carapace", "joueur1_dome", "joueur1_loge",
+             "joueur2_mandibule", "joueur2_carapace", "joueur2_dome", "joueur2_loge"].forEach(id => {
+                params.append(id, document.getElementById(id).value);
+            });
+
+            const response = await fetch("/configurer_bonus", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params.toString()
+            });
+            const data = await response.json();
+            alert(data.message);
+        }
+
+        async function lancerCombat() {
+            const environment = document.getElementById("environment").value;
+
+            const response = await fetch("/lancer_combat", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `environment=${encodeURIComponent(environment)}`
+            });
+            const data = await response.json();
+            if (data.status === "success") {
+                document.getElementById("result").innerHTML = data.rapport.join("<br>");
+            } else {
+                alert(data.message);
+            }
+        }
+    </script>
+</body>
+</html>
